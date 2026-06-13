@@ -79,7 +79,7 @@
                     <a href="#noi-dung" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Nội dung</a>
                     <a href="#lo-trinh" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Lộ trình</a>
                     <a href="#lien-he" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Liên hệ</a>
-                    <a href="#dang-ky" class="bg-vRed hover:bg-vDarkRed text-white px-6 py-2.5 rounded text-sm font-bold transition duration-200 ease-out hover:scale-[1.02] shadow-md">
+                    <a href="javascript:void(0)" onclick="openModal() class="bg-vRed hover:bg-vDarkRed text-white px-6 py-2.5 rounded text-sm font-bold transition duration-200 ease-out hover:scale-[1.02] shadow-md">
                         Đăng ký ngay
                     </a>
                 </div>
@@ -371,4 +371,102 @@
     </footer>
 
 </body>
+    ```html
+    <!-- MODAL FORM ĐĂNG KÝ -->
+    <div id="registerModal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl w-11/12 max-w-md overflow-hidden transform scale-95 transition-transform duration-300 relative">
+            <!-- Header Modal -->
+            <div class="bg-vRed px-6 py-4 flex justify-between items-center">
+                <h3 class="text-white font-bold text-xl">Đăng ký tham gia</h3>
+                <button onclick="closeModal()" class="text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
+            </div>
+            <!-- Body Form -->
+            <form id="submit-to-google-sheet" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-vBlack mb-1">Họ và tên *</label>
+                    <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-vBlack mb-1">Số điện thoại *</label>
+                    <input type="tel" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-vBlack mb-1">Email *</label>
+                    <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-vBlack mb-1">Mong muốn khi tham gia chương trình</label>
+                    <textarea name="expectation" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition resize-none"></textarea>
+                </div>
+                
+                <div id="formMessage" class="hidden text-sm font-medium text-center p-2 rounded"></div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-vRed hover:bg-vDarkRed text-white font-bold py-3 rounded transition duration-200 shadow flex justify-center items-center">
+                    <span>Hoàn thành đăng ký</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT ĐIỀU KHIỂN FORM VÀ GỬI DỮ LIỆU -->
+    <script>
+        // --- CHÚ Ý: Dán URL Web App của Google Script vào đây ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby6snrruEt3TKClJLks8J_tLd5eABexWkJuIeoorzAYS-iWh3UUQUv0pTfUyDiZirEr/exec';
+        
+        const form = document.forms['submit-to-google-sheet'];
+        const modal = document.getElementById('registerModal');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.firstElementChild.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modal.firstElementChild.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                form.reset();
+                formMessage.classList.add('hidden');
+            }, 300);
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // Đổi trạng thái nút bấm khi đang gửi
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    formMessage.textContent = '🎉 Đăng ký thành công! Chúng tôi sẽ sớm liên hệ.';
+                    formMessage.className = 'text-sm font-medium text-center p-3 rounded bg-green-100 text-green-700 block';
+                    form.reset();
+                    
+                    // Đóng modal sau 2 giây
+                    setTimeout(() => {
+                        closeModal();
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<span>Hoàn thành đăng ký</span>';
+                        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                    }, 2500);
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    formMessage.textContent = '❌ Có lỗi xảy ra, vui lòng thử lại sau.';
+                    formMessage.className = 'text-sm font-medium text-center p-3 rounded bg-red-100 text-red-700 block';
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Hoàn thành đăng ký</span>';
+                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                });
+        });
+    </script>
 </html>
