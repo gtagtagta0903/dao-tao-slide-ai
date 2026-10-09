@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hướng Dẫn Tạo Slide Bằng AI - Viettel Networks</title>
+    <title>HẠNH PHÚC FEST - VNPAY</title>
     
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
@@ -18,442 +21,415 @@
             theme: {
                 extend: {
                     colors: {
-                        vRed: '#E30613',
-                        vDarkRed: '#B30000',
-                        vLightRed: '#FF2D2D',
-                        vGrayBg: '#F5F5F5',
-                        vBlack: '#0A0A0A',
-                        vGrayText: '#4A4A4A',
+                        vnpay: {
+                            blue: '#005baa',
+                            blue_light: '#1a75c2',
+                            red: '#ed1c24',
+                            red_light: '#ff3b42'
+                        }
                     },
                     fontFamily: {
-                        sans: ['Roboto', 'Arial', 'sans-serif'],
-                    },
-                    spacing: {
-                        '12': '3rem',   // 48px
-                        '16': '4rem',   // 64px
-                        '24': '6rem',   // 96px
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-
+    
     <style>
-        .marquee-container {
-            display: flex;
-            overflow: hidden;
-            user-select: none;
-            gap: 3rem;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        body {
+            background-color: #f3f4f6; /* Gray 100 for desktop background */
+            -webkit-tap-highlight-color: transparent;
         }
-        .marquee-content {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            gap: 3rem;
-            min-width: 100%;
-            animation: scroll 20s linear infinite;
+        /* Mobile simulator container for desktop view */
+        .mobile-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
         }
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(calc(-100% - 3rem)); }
+        @media (min-width: 481px) {
+            .mobile-container {
+                margin: 2rem auto;
+                min-height: calc(100vh - 4rem);
+                border-radius: 40px;
+                overflow: hidden;
+                border: 8px solid #1f2937;
+            }
         }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        .tab-btn.active {
+            background-color: #ed1c24;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(237, 28, 36, 0.4);
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="font-sans text-vGrayText bg-white antialiased selection:bg-vLightRed selection:text-white">
+<body class="text-gray-800 antialiased font-sans">
 
-    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center cursor-pointer">
-                    <img src="IN3_Viettel%20Networks-02.png" alt="Viettel Logo" class="h-10 w-auto object-contain">
-                </div>
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#muc-tieu" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Mục tiêu</a>
-                    <a href="#noi-dung" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Nội dung</a>
-                    <a href="#lo-trinh" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Lộ trình</a>
-                    <a href="#lien-he" class="text-vBlack hover:text-vRed font-medium transition duration-200 ease-out">Liên hệ</a>
-                    <a href="javascript:void(0)" onclick="openModal()" class="bg-vRed hover:bg-vDarkRed text-white px-6 py-2.5 rounded text-sm font-bold transition duration-200 ease-out hover:scale-[1.02] shadow-md">
-                        Đăng ký ngay
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <section class="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <span class="inline-block py-1 px-3 rounded-full bg-red-100 text-vRed text-sm font-bold mb-6 border border-red-200 tracking-wide">
-                        CHƯƠNG TRÌNH ĐÀO TẠO NỘI BỘ
-                    </span>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-vBlack leading-tight mb-6">
-                        Hướng Dẫn Tạo Slide Bằng <span class="text-vRed">AI</span> Cơ Bản & Nâng Cao
-                    </h1>
-                    <p class="text-lg md:text-xl mb-8 leading-relaxed text-vGrayText">
-                        Nâng cao hiệu suất công việc và tự tay thiết kế những ấn phẩm chuyên nghiệp, mang đậm dấu ấn cá nhân với sự hỗ trợ từ các công cụ AI hàng đầu.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                        <a href="javascript:void(0)" onclick="openModal()" class="w-full sm:w-auto text-center bg-vRed hover:bg-vDarkRed text-white px-8 py-4 rounded font-bold text-lg transition duration-200 ease-out hover:scale-[1.02] shadow-lg">
-                            Đăng Ký Tham Gia
-                        </a>
-                        <div class="flex items-center text-sm font-medium text-vBlack bg-gray-100 px-4 py-3 rounded">
-                            <i class="fa-regular fa-clock text-vRed mr-2 text-lg"></i>
-                            Hạn cuối: 06/05/2026
-                        </div>
-                    </div>
-                </div>
-                <img src="Viettel.jpg" alt="Đào tạo AI" class="w-full h-[400px] lg:h-[500px] object-cover rounded-xl shadow-md transition duration-200 ease-out hover:scale-[1.02]">
-            </div>
-        </div>
-    </section>
-
-    <section id="muc-tieu" class="py-24 bg-vGrayBg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 transition duration-200 ease-out hover:scale-[1.02] hover:shadow-md">
-                    <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-users text-2xl text-vRed"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-vBlack mb-3">Đối tượng tham gia</h3>
-                    <p class="text-sm leading-relaxed">CBCNV cần chứng nhận KNL & CBCNV muốn tối ưu tác vụ công việc bằng AI.</p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 transition duration-200 ease-out hover:scale-[1.02] hover:shadow-md">
-                    <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-laptop-code text-2xl text-vRed"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-vBlack mb-3">Yêu cầu chuẩn bị</h3>
-                    <p class="text-sm leading-relaxed">Có máy tính cá nhân, tài khoản AI (Gemini, Claude, Canva...).</p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 transition duration-200 ease-out hover:scale-[1.02] hover:shadow-md">
-                    <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fa-regular fa-calendar-check text-2xl text-vRed"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-vBlack mb-3">Thời gian</h3>
-                    <p class="text-sm leading-relaxed">08h30 - 12h00<br>Thứ 6, ngày 08/05/2026 (3,5 giờ).</p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 transition duration-200 ease-out hover:scale-[1.02] hover:shadow-md">
-                    <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-location-dot text-2xl text-vRed"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-vBlack mb-3">Hình thức & Địa điểm</h3>
-                    <p class="text-sm leading-relaxed">Blended Learning.<br>Trực tiếp (Tòa nhà Thái Bình) hoặc Online (Zoom).</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="noi-dung" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-black text-vBlack mb-4">Tại sao bạn nên tham gia khóa học?</h2>
-                <div class="w-16 h-1 bg-vRed mx-auto"></div>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center group">
-                    <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-vRed transition duration-200">
-                        <i class="fa-solid fa-bolt text-3xl text-vRed group-hover:text-white transition duration-200"></i>
-                    </div>
-                    <h3 class="font-bold text-vBlack mb-2">Tốc Độ & Hiệu Quả</h3>
-                    <p class="text-sm text-vGrayText">Làm chủ AI thiết kế (Gemini, Claude, Canva...) để tạo slide nhanh chóng.</p>
-                </div>
-                <div class="text-center group">
-                    <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-vRed transition duration-200">
-                        <i class="fa-solid fa-palette text-3xl text-vRed group-hover:text-white transition duration-200"></i>
-                    </div>
-                    <h3 class="font-bold text-vBlack mb-2">Sáng Tạo & Chuẩn Brand</h3>
-                    <p class="text-sm text-vGrayText">Ứng dụng thực tế cao, sản phẩm mang dấu ấn cá nhân, đúng chuẩn brand Viettel.</p>
-                </div>
-                <div class="text-center group">
-                    <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-vRed transition duration-200">
-                        <i class="fa-solid fa-certificate text-3xl text-vRed group-hover:text-white transition duration-200"></i>
-                    </div>
-                    <h3 class="font-bold text-vBlack mb-2">Chứng Nhận KNL</h3>
-                    <p class="text-sm text-vGrayText">Nhận chứng nhận hoàn thành nội bộ đáp ứng Khung Năng Lực (KNL).</p>
-                </div>
-                <div class="text-center group">
-                    <div class="w-20 h-20 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-vRed transition duration-200">
-                        <i class="fa-solid fa-folder-open text-3xl text-vRed group-hover:text-white transition duration-200"></i>
-                    </div>
-                    <h3 class="font-bold text-vBlack mb-2">Trọn Bộ Tài Nguyên</h3>
-                    <p class="text-sm text-vGrayText">Nhận trọn bộ Template Prompt mẫu và tài liệu hướng dẫn Claude mở rộng.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="lo-trinh" class="py-24 bg-vGrayBg">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black text-vBlack mb-4">Lộ trình đào tạo chi tiết</h2>
-                <div class="w-16 h-1 bg-vRed mx-auto"></div>
-            </div>
+    <div class="mobile-container overflow-y-auto">
+        
+        <!-- Header Section -->
+        <header class="bg-gradient-to-b from-vnpay-blue to-vnpay-blue_light text-white rounded-b-[40px] pt-12 pb-10 px-6 relative shadow-lg overflow-hidden">
+            <!-- Decorative shapes -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-vnpay-red opacity-20 rounded-full -ml-8 -mb-8 blur-md"></div>
             
-            <div class="space-y-8">
-                <div class="bg-white p-8 md:p-12 rounded-xl shadow-sm border-l-4 border-vRed transition duration-200 ease-out hover:scale-[1.02]">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-vRed text-white rounded font-bold text-xl flex items-center justify-center">01</div>
-                        <h3 class="text-2xl font-bold text-vBlack">Phần Cơ Bản</h3>
-                    </div>
-                    <ul class="grid md:grid-cols-2 gap-4 text-vGrayText">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vRed mt-1 mr-3"></i> Cách tạo slide từ ý tưởng có sẵn.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vRed mt-1 mr-3"></i> Cấu trúc tài liệu chuẩn.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vRed mt-1 mr-3"></i> Thiết kế theo thương hiệu Viettel bằng AI.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vRed mt-1 mr-3"></i> Tinh chỉnh slide (Claude, Canva).</li>
-                    </ul>
-                </div>
-
-                <div class="bg-white p-8 md:p-12 rounded-xl shadow-sm border-l-4 border-vBlack transition duration-200 ease-out hover:scale-[1.02]">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-vBlack text-white rounded font-bold text-xl flex items-center justify-center">02</div>
-                        <h3 class="text-2xl font-bold text-vBlack">Phần Nâng Cao</h3>
-                    </div>
-                    <ul class="grid md:grid-cols-2 gap-4 text-vGrayText">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vBlack mt-1 mr-3"></i> Kỹ năng dùng Skill Claude cho văn phòng (báo cáo, tờ trình...).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vBlack mt-1 mr-3"></i> Thiết kế Landing Page (CV cá nhân, bài giảng .html).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-vBlack mt-1 mr-3"></i> Cách public lên Github.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-white border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-5 gap-12 items-center">
-                <div class="lg:col-span-2">
-                    <h2 class="text-3xl md:text-4xl font-black text-vBlack mb-4">Tiêu chí đánh giá & Yêu cầu đầu ra</h2>
-                    <p class="text-lg text-vGrayText mb-6">Sản phẩm được chấm tự động bằng AI. Học viên cần đạt điểm số yêu cầu để cấp chứng nhận.</p>
-                </div>
-                <div class="lg:col-span-3 grid sm:grid-cols-2 gap-6">
-                    <div class="bg-gray-50 p-8 rounded-xl text-center border border-gray-200 transition duration-200 hover:border-vRed hover:shadow-md">
-                        <div class="text-5xl font-black text-vRed mb-2">7/10</div>
-                        <div class="font-bold text-vBlack text-lg mb-2">Điểm đạt tối thiểu</div>
-                        <p class="text-sm text-vGrayText">Điều kiện bắt buộc để qua môn</p>
-                    </div>
-                    <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 text-left transition duration-200 hover:border-vRed hover:shadow-md">
-                        <div class="mb-4">
-                            <span class="inline-block bg-vBlack text-white text-xs font-bold px-2 py-1 rounded mb-2">SẢN PHẨM 1 (BẮT BUỘC)</span>
-                            <div class="font-bold text-vBlack">Tối thiểu 01 thiết kế Slide bằng AI</div>
-                            <div class="text-vRed font-bold">Tối đa 8 điểm</div>
-                        </div>
-                        <div class="pt-4 border-t border-gray-200">
-                            <span class="inline-block bg-gray-200 text-vBlack text-xs font-bold px-2 py-1 rounded mb-2">SẢN PHẨM 2 (CỘNG ĐIỂM)</span>
-                            <div class="font-bold text-vBlack">Thiết kế thêm 01 Landing page</div>
-                            <div class="text-vRed font-bold">Tối đa 2 điểm</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-12 bg-vGrayBg overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 mb-6 text-center">
-            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Các công cụ hỗ trợ thiết kế trong khóa học</h3>
-        </div>
-        <div class="marquee-container opacity-60 hover:opacity-100 transition duration-300">
-            <div class="marquee-content text-2xl md:text-4xl font-black text-gray-400">
-                <span>CLAUDE</span> <span>•</span>
-                <span>GEMINI</span> <span>•</span>
-                <span>CANVA</span> <span>•</span>
-                <span>NOTEBOOKLM</span> <span>•</span>
-                <span>GITHUB</span> <span>•</span>
-                <span>CLAUDE</span> <span>•</span>
-                <span>GEMINI</span> <span>•</span>
-                <span>CANVA</span> <span>•</span>
-                <span>NOTEBOOKLM</span> <span>•</span>
-                <span>GITHUB</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-black text-vBlack mb-4">Câu hỏi thường gặp</h2>
-                <div class="w-16 h-1 bg-vRed mx-auto"></div>
-            </div>
-            
-            <div class="space-y-4">
-                <details class="group border border-gray-200 rounded-lg bg-white overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-6 font-bold text-vBlack hover:bg-gray-50 transition">
-                        <span>[CẦN BỔ SUNG] Dùng tài khoản AI miễn phí được không?</span>
-                        <span class="transition duration-300 group-open:-rotate-180 text-vRed">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <div class="p-6 pt-0 text-vGrayText leading-relaxed border-t border-gray-100">
-                        [CẦN BỔ SUNG] Câu trả lời chi tiết: Khóa học khuyến khích sử dụng tài khoản có phí (Pro/Plus) để đạt hiệu suất cao nhất. Tuy nhiên, bạn vẫn có thể thực hành các kỹ năng cơ bản với tài khoản miễn phí...
-                    </div>
-                </details>
-
-                <details class="group border border-gray-200 rounded-lg bg-white overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-6 font-bold text-vBlack hover:bg-gray-50 transition">
-                        <span>[CẦN BỔ SUNG] Học online có được cấp chứng nhận KNL không?</span>
-                        <span class="transition duration-300 group-open:-rotate-180 text-vRed">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <div class="p-6 pt-0 text-vGrayText leading-relaxed border-t border-gray-100">
-                        [CẦN BỔ SUNG] Câu trả lời chi tiết: Có. Hình thức Blended Learning đảm bảo chất lượng đầu ra tương đương nhau. Chỉ cần bạn hoàn thành đủ bài tập thực hành và đạt điểm AI tự động từ 7/10 trở lên.
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <section id="dang-ky" class="py-24 bg-vRed text-center px-4">
-        <div class="max-w-4xl mx-auto text-white">
-            <h2 class="text-4xl md:text-5xl font-black mb-6">Sẵn sàng nâng cấp kỹ năng của bạn?</h2>
-            <p class="text-lg md:text-xl mb-10 text-red-100 opacity-90">
-                Điền Form đăng ký và tham gia khảo sát đầu vào để ban tổ chức hỗ trợ tốt nhất.
-            </p>
-            <a href="javascript:void(0)" onclick="openModal()" class="inline-block bg-white text-vRed hover:bg-gray-100 px-10 py-5 rounded font-bold text-xl transition duration-200 ease-out hover:scale-[1.05] shadow-xl">
-                Đăng Ký Ngay
-            </a>
-            <p class="mt-6 text-sm font-medium bg-vDarkRed inline-block px-4 py-2 rounded text-white">
-                <i class="fa-regular fa-clock mr-2"></i> Hạn cuối đăng ký: 06/05/2026
-            </p>
-        </div>
-    </section>
-
-    <footer id="lien-he" class="bg-vBlack text-gray-300 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
-                    <div class="text-white font-bold text-xl tracking-tight mb-6">
-                        <img src="IN3_Viettel%20Networks-04.png" alt="Viettel Logo" class="h-10 w-auto object-contain">
-                    </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Người hướng dẫn chuyên môn</h4>
-                    <p class="flex items-center text-gray-400">
-                        <i class="fa-solid fa-user-tie w-6 text-vRed"></i> 
-                        Đ/c Đỗ Thị Ngát – Phòng Nhân sự
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold text-white mb-6">Thông tin liên hệ hỗ trợ</h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="fa-solid fa-headset mt-1 w-6 text-vRed"></i>
-                            <span>
-                                <strong>Đ/c Mai Ngọc Minh</strong><br>
-                                Phòng Nhân sự, Tổng Công ty Mạng lưới (VTNet)
-                            </span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fa-solid fa-phone w-6 text-vRed"></i>
-                            <a href="tel:0989208017" class="hover:text-white transition">0989 208 017</a>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fa-solid fa-envelope w-6 text-vRed"></i>
-                            <a href="mailto:minhmn@viettel.com.vn" class="hover:text-white transition">minhmn@viettel.com.vn</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-                &copy; 2026 Viettel Networks. Tài liệu lưu hành nội bộ.
-            </div>
-        </div>
-    </footer>
-
-    <div id="registerModal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-xl shadow-2xl w-11/12 max-w-md overflow-hidden transform scale-95 transition-transform duration-300 relative">
-            <div class="bg-vRed px-6 py-4 flex justify-between items-center">
-                <h3 class="text-white font-bold text-xl">Đăng ký tham gia</h3>
-                <button onclick="closeModal()" class="text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
-            </div>
-            <form id="submit-to-google-sheet" class="p-6 space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-vBlack mb-1">Họ và tên *</label>
-                    <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-vBlack mb-1">Số điện thoại *</label>
-                    <input type="tel" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-vBlack mb-1">Email *</label>
-                    <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-vBlack mb-1">Mong muốn khi tham gia chương trình</label>
-                    <textarea name="expectation" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-vRed focus:border-vRed outline-none transition resize-none"></textarea>
+            <div class="relative z-10 text-center">
+                <div class="inline-block bg-white/20 backdrop-blur-sm rounded-full px-4 py-1 mb-4 text-xs font-semibold tracking-wider uppercase border border-white/30">
+                    <i class="fa-solid fa-bolt text-yellow-300 mr-1"></i> Cho cuộc sống đơn giản hơn
                 </div>
                 
-                <div id="formMessage" class="hidden text-sm font-medium text-center p-2 rounded"></div>
+                <h1 class="font-heading font-black text-4xl leading-tight mb-2 tracking-tight text-white drop-shadow-md">
+                    HẠNH PHÚC <span class="text-vnpay-red drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]" style="-webkit-text-stroke: 1px white;">FEST</span>
+                </h1>
+                
+                <div class="flex flex-col items-center justify-center space-y-2 mt-6 text-sm font-medium bg-black/10 rounded-2xl py-3 border border-white/10">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-vnpay-red/20 flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-days text-vnpay-red_light"></i>
+                        </div>
+                        <span>17.10.2026 | 14:00 - 21:30</span>
+                    </div>
+                    <div class="w-10 h-px bg-white/20"></div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-vnpay-red/20 flex items-center justify-center">
+                            <i class="fa-solid fa-location-dot text-vnpay-red_light"></i>
+                        </div>
+                        <span>Cung thể thao Quần Ngựa</span>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-                <button type="submit" id="submitBtn" class="w-full bg-vRed hover:bg-vDarkRed text-white font-bold py-3 rounded transition duration-200 shadow flex justify-center items-center">
-                    <span>Hoàn thành đăng ký</span>
-                </button>
-            </form>
-        </div>
+        <main class="px-5 py-8">
+            
+            <!-- Schedule Section -->
+            <section class="mb-10">
+                <div class="flex items-center mb-6">
+                    <i class="fa-solid fa-clock text-vnpay-red text-xl mr-2"></i>
+                    <h2 class="font-heading font-bold text-2xl text-vnpay-blue">Lịch Trình</h2>
+                </div>
+                
+                <!-- Custom Tab Buttons -->
+                <div class="flex bg-gray-100 rounded-full p-1 mb-6">
+                    <button id="btn-tab1" class="tab-btn active flex-1 py-2.5 rounded-full font-semibold text-sm focus:outline-none" onclick="switchTab('tab1', 'btn-tab1')">
+                        <i class="fa-solid fa-sun mr-1"></i> Buổi Chiều
+                    </button>
+                    <button id="btn-tab2" class="tab-btn flex-1 py-2.5 rounded-full font-semibold text-sm text-gray-500 focus:outline-none" onclick="switchTab('tab2', 'btn-tab2')">
+                        <i class="fa-solid fa-music mr-1"></i> Music Concert
+                    </button>
+                </div>
+
+                <!-- Tab 1: Buổi Chiều -->
+                <div id="tab1" class="tab-content active relative">
+                    <div class="absolute w-0.5 bg-gray-200 h-[calc(100%-2rem)] left-[3.25rem] top-3 z-0"></div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">14:00</div>
+                            <div class="w-3 h-3 bg-vnpay-red rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Đón khách & Check-in</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">15:15</div>
+                            <div class="w-3 h-3 bg-vnpay-blue rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Opening Performance</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">15:25</div>
+                            <div class="w-3 h-3 bg-vnpay-blue rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Khai mạc</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">15:35</div>
+                            <div class="w-3 h-3 bg-vnpay-red rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Kích hoạt Hạnh Phúc Fest</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">15:45</div>
+                            <div class="w-3 h-3 bg-vnpay-blue rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800 leading-tight">Trải nghiệm gian hàng & hoạt động sân khấu</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">16:25</div>
+                            <div class="w-3 h-3 bg-yellow-400 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-bold text-vnpay-red flex items-center">
+                                    <i class="fa-solid fa-gift mr-1.5"></i> Lucky Draw
+                                </h3>
+                                <p class="text-xs text-gray-500 mt-1 uppercase font-bold tracking-wide">Đừng bỏ lỡ!</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">16:30</div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 bg-green-50 rounded-xl p-3 border border-green-100 -mt-1">
+                                <h3 class="font-bold text-green-700 mb-1 flex items-center">
+                                    <i class="fa-solid fa-burger mr-1.5"></i> Food Zone
+                                </h3>
+                                <p class="text-sm text-green-600">Nạp năng lượng xong, mình cùng vào khu vực Concert nhé!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Music Concert -->
+                <div id="tab2" class="tab-content relative">
+                    <div class="absolute w-0.5 bg-gray-200 h-[calc(100%-2rem)] left-[3.25rem] top-3 z-0"></div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <!-- Items -->
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">17:30</div>
+                            <div class="w-3 h-3 bg-vnpay-blue rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Countdown & Opening Performance</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">17:50</div>
+                            <div class="w-3 h-3 bg-vnpay-blue rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Khai mạc</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">18:00</div>
+                            <div class="w-3 h-3 bg-vnpay-red rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-bold text-vnpay-red">Key Moment</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">18:05</div>
+                            <div class="w-3 h-3 bg-purple-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Nghệ sĩ nhí Ali Thục Phương</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">18:30</div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800 leading-tight">Trao giải cuộc thi "Tương lai Hạnh phúc cùng VNPAY"</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">18:40</div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800 leading-tight">Trao giải cuộc thi "Ngàn khoảnh khắc hạnh phúc"</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">18:45</div>
+                            <div class="w-3 h-3 bg-purple-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Nghệ sĩ Muộii</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">19:10</div>
+                            <div class="w-3 h-3 bg-vnpay-red rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-bold text-vnpay-red flex items-center"><i class="fa-solid fa-gift mr-1.5"></i> Lucky Draw</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">19:20</div>
+                            <div class="w-3 h-3 bg-purple-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Nghệ sĩ Phúc Du</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">19:45</div>
+                            <div class="w-3 h-3 bg-vnpay-red rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-bold text-vnpay-red flex items-center"><i class="fa-solid fa-gift mr-1.5"></i> Lucky Draw</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">19:55</div>
+                            <div class="w-3 h-3 bg-purple-500 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1 pb-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-800">Nghệ sĩ Trọng Hiếu</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 font-heading font-bold text-vnpay-blue text-right shrink-0 mt-0.5">20:15</div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-full mt-1.5 shrink-0 outline outline-4 outline-white shadow-sm"></div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-500">Kết thúc chương trình</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-map-location-dot text-vnpay-blue text-xl mr-2"></i>
+                        <h2 class="font-heading font-bold text-2xl text-vnpay-blue">Sơ Đồ Tổng Quan</h2>
+                    </div>
+                </div>
+                <!-- Placeholder Image (User can replace src) -->
+                <div class="rounded-2xl overflow-hidden shadow-md border-2 border-dashed border-gray-300 relative group cursor-pointer bg-gray-50">
+                    <img src="https://placehold.co/800x600/f8fafc/005baa?text=ẢNH+SƠ+ĐỒ+TỔNG+QUAN\n(Nhấn+để+thay+ảnh)" alt="Sơ đồ tổng quan Hạnh Phúc Fest" class="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition duration-300">
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <div class="flex items-center mb-5">
+                    <i class="fa-solid fa-utensils text-orange-500 text-xl mr-2"></i>
+                    <h2 class="font-heading font-bold text-xl text-vnpay-blue">Hướng Dẫn<br>Trải Nghiệm Ẩm Thực</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Food Ticket Card -->
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-orange-100 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                        <h3 class="font-bold text-lg mb-3 text-gray-800 flex items-center">
+                            <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center mr-2 text-sm">1</span>
+                            Food Ticket
+                        </h3>
+                        <ul class="text-sm text-gray-600 space-y-2 ml-10">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                                <span>Vui lòng xuất trình phiếu tại quầy Food Zone.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                                <span>Mỗi phiếu được quy đổi 01 box đồ ăn.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-green-500 mt-1 mr-2 text-xs"></i>
+                                <span>Phiếu chỉ có giá trị trong khung giờ áp dụng.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Grid for Beer and Ice Cream -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Beer Zone Card -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-2 text-yellow-600">
+                                <i class="fa-solid fa-beer-mug-empty text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Beer Zone</h3>
+                            <p class="text-xs text-gray-500 leading-tight mb-2">Nhận đồ uống trực tiếp tại quầy</p>
+                            <div class="inline-block bg-gray-100 rounded text-xs font-semibold px-2 py-1 text-vnpay-blue">
+                                <i class="fa-regular fa-clock mr-1"></i>16:30 - 17:00
+                            </div>
+                        </div>
+
+                        <!-- Gian Kem Card -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mb-2 text-pink-500">
+                                <i class="fa-solid fa-ice-cream text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Gian Kem</h3>
+                            <p class="text-xs text-gray-500 leading-tight mb-2">Tham gia hoạt động ăn kem trúng thưởng</p>
+                            <div class="inline-block bg-gray-100 rounded text-xs font-semibold px-2 py-1 text-vnpay-blue">
+                                <i class="fa-regular fa-clock mr-1"></i>16:30 - 17:00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-gradient-to-t from-gray-50 to-white pt-8 pb-12 px-6 text-center">
+            <div class="flex justify-center items-center space-x-3 text-vnpay-red text-2xl mb-4">
+                <i class="fa-regular fa-face-smile-beam"></i>
+                <i class="fa-solid fa-handshake-angle text-vnpay-blue"></i>
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <p class="font-heading font-bold text-lg text-gray-800 mb-1">Cảm ơn bạn</p>
+            <p class="text-gray-500 text-sm">đã cùng VNPAY tạo nên một ngày thật hạnh phúc!</p>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <img src="https://placehold.co/200x60/ffffff/005baa?text=VNPAY+Logo" alt="VNPAY Logo" class="h-8 mx-auto grayscale opacity-50">
+            </div>
+        </footer>
+
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby6snrruEt3TKClJLks8J_tLd5eABexWkJuIeoorzAYS-iWh3UUQUv0pTfUyDiZirEr/exec';
-        
-        const form = document.forms['submit-to-google-sheet'];
-        const modal = document.getElementById('registerModal');
-        const submitBtn = document.getElementById('submitBtn');
-        const formMessage = document.getElementById('formMessage');
+        function switchTab(tabId, btnId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
 
-        function openModal() {
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.firstElementChild.classList.remove('scale-95');
-            }, 10);
-        }
+            // Reset all buttons style
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-gray-500');
+                btn.classList.remove('text-white');
+            });
 
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modal.firstElementChild.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                form.reset();
-                formMessage.classList.add('hidden');
-            }, 300);
-        }
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
             
-            // Đổi trạng thái nút bấm khi đang gửi
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
-            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    formMessage.textContent = '🎉 Đăng ký thành công! Chúng tôi sẽ sớm liên hệ.';
-                    formMessage.className = 'text-sm font-medium text-center p-3 rounded bg-green-100 text-green-700 block';
-                    form.reset();
-                    
-                    // Đóng modal sau 2 giây
-                    setTimeout(() => {
-                        closeModal();
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<span>Hoàn thành đăng ký</span>';
-                        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-                    }, 2500);
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    formMessage.textContent = '❌ Có lỗi xảy ra, vui lòng thử lại sau.';
-                    formMessage.className = 'text-sm font-medium text-center p-3 rounded bg-red-100 text-red-700 block';
-                    
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<span>Hoàn thành đăng ký</span>';
-                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-                });
-        });
+            // Highlight selected button
+            const activeBtn = document.getElementById(btnId);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('text-white');
+        }
     </script>
 </body>
 </html>
